@@ -112,4 +112,4 @@ if pessoa == "Professor Verificado":
         a = a + 1
     elif opcao_01 in horario_p_em_and:
         for i in alunos_presentes:
-            print(i)
+            print(n)

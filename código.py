@@ -1,4 +1,4 @@
- Como não sabemos como funciona o touch decidimos botar uma escolhas escritas para testar o código
+#Como não sabemos como funciona o touch decidimos botar uma escolhas escritas para testar o código
 import uuid
 from datetime import date
 hj = date.today()

@@ -1,147 +1,115 @@
-# Como não sabemos como funciona o touch decidimos botar uma escolhas escritas para testar o código
+ Como não sabemos como funciona o touch decidimos botar uma escolhas escritas para testar o código
 import uuid
-
-codigo_aleatorio = ""
-mensagem_prof = ""
-chamadas = 0
-mensagem_alu = ""
+from datetime import date
+hj = date.today()
+data = hj.weekday()
+if data == 0:
+    dia = "Segunda\n"
+if data == 1:
+    dia = "Terça\n"
+if data == 2:
+    dia = "Quarta\n"
+if data == 3:
+    dia = "Quinta\n"
+if data == 4:
+    dia = "Sexta\n"
+if data == 5:
+    dia = "Sabado\n"
+if data == 6:
+    dia = "Domingo\n"
+professores = open("professores.txt", "r", encoding="utf8")
+posicoes = professores.readlines()
+professores.close()
 opcao_0 = ""
+notificacao = 0
 notificacao_prof = 0
 notificacao_alu = 0
 codigo_0 = 0
 presenca = 0
 b = 0
+d = 0
 a = 0
+c = 0
+n = 0
+f = 0
 presentes = 0
-horario = ""
+codigo_aleatorio = ""
+pessoa = ""
+mensagem_prof = ""
+chamadas = 0
+mensagem_alu = ""
+horario_p = []
+horario_p_em_and = []
+e = []
+alunos_presentes = []
+alunos_presenca = []
 print("LOGIN")
-email = input("Digite seu e-mail: \n")  # E-mail que a cesar disponibilizará para os alunos
-senha = input("Digite a sua senha: \n")  # A senha é o CPF do aluno
-# O código vai conferir se o confere o e-mail com o cpf do aluno
-nome = input("escreva seu nome:")  # decidimos botar essa parte para demonstrar a home
-profissao = input("Qual a sua profissão:")
-# Se for professor:
-if profissao == "Professor":
-    while b == 0:
-        print("\n\nOLÁ,", nome, "\n\n")
-        print("CHAMADA \nNova chamada \nEm andamento")
-        print("HISTÓRICO")  # chamadas ja feitas retiradas do banco de dados da CESAR school
-        print("TURMAS")  # Turmas do professor retiradas do banco de dados do CESAR school
-        print("MENSAGENS-", notificacao_alu)
-        print("PERFIL")
+email = input("Digite seu e-mail: \n")  # E-mail que a cesar disponibilizará para os alunos e professores
+senha = input("Digite a sua senha: \n")  # A senha é o CPF do aluno e do professor
+email_verificacao = email + "\n"
+senha_verificacao = senha + "\n"
+if email_verificacao in posicoes:
+  for i in posicoes:
+    if c == 2:
+      if senha_verificacao == i:
+        pessoa = "Professor Verificado"
+      c += 1
+    if c == 1:
+      c += 1
+      nome = i
+    if email_verificacao == i:
+      c += 1
+if pessoa == "Professor Verificado":
+  while b == 0:
+    for i in posicoes:
+        if i == nome:
+            f += 1
+        if f == 1:
+            if 1 <= d < 5:
+                horario_p.append(i)
+                d += 1
+            if i == dia:
+                d += 1
+    nome_p = nome.rstrip()
+    print("\n\nOlá,", nome_p , "!\n\n")
+    print("Chamadas em andamento:\n")
+    for i in horario_p_em_and:
+      print(i)
+    print("Para hoje:\n")
+    for i in horario_p:
+      print(i)
+    print("HISTÓRICO   AVISOS   HOME   MENSAGENS   PERFIL")
+    opcao = input("")
+    opcao_1 = opcao.title()
+    opcao_01 = opcao_1.rstrip()
+    a = 0
+    if opcao_01 in horario_p:
+        print("Você tem certeza de que quer fazer a chamada dessa turma?")
+        print("\n\n")
+        print("HISTÓRICO   AVISOS   HOME   MENSAGENS   PERFIL")
         opcao = input("")
-        a = 0
-        if opcao == "CHAMADA":
-            print("Nova chamada \nEm andamento")
-            opcao_0 = input("")
-            if opcao_0 == "Nova chamada":
-                while a == 0:
-                    print(
-                        "Turma 1 ")  # Turmas do professor retiradas do banco de dados do CESAR school que serão armazenadas dentro de uma lista
-
-                    # O professor escolheu a turma 1
-                    horario = input("Qual o horário a chamada será automaticamente encerrada:")
+        opcao_02 = opcao.upper()
+        if opcao_02 == "HOME":
+            break
+        horario = input("Qual o horário a chamada será automaticamente encerrada:")
+        def my_random_string(string_length=10):
+            random = str(uuid.uuid4())
+            random = random.upper()
+            random = random.replace("-", "")
+            return random[0:string_length]
 
 
-                    def my_random_string(string_length=10):
-                        """Returns a random string of length string_length."""
-                        random = str(uuid.uuid4())
-                        random = random.upper()
-                        random = random.replace("-", "")
-                        return random[0:string_length]
-                    codigo_aleatorio = my_random_string(6)
-
-
-                    print("Seu código é:", codigo_aleatorio)
-                    # Como não sabiamos como colocar geolocalização, decidimos fazer apenas o código por enquanto
-                    chamadas = chamadas + 1
-                    a = a + 1
-            elif opcao_0 == "Em andamento":
-                while a == 0:
-                    if chamadas >= 1:
-                        # Turmas do professor retiradas do banco de dados do CESAR school com chamadas salvas, e o professo escolheu a turma 1
-                        print(codigo_aleatorio, "             ")
-                        # Aqui mostraria os alunos da turma que marcaram presença
-                        print("Tem certeza que deseja finalizar a chamada?(", presentes,
-                              "alunos marcaram presença )\n A chamada será finalizada automaticamente as", horario, "horas.")
-                        abcd = input('Digite sim ou não: ')
-
-                        if abcd == "sim":
-                            chamadas = chamadas - 1
-                            print('Codigo encerrado')
-                            codigo_aleatorio = ""
-                        elif abcd == "não":
-                            break
-
-
-                    # Se sim, o código finaliza a chamada
-                    # Se não, ele finaliza a chamada automaticamente no horário escolhido
-                    a = a + 1
-        elif opcao == "HISTÓRICO":
-            while a == 0:
-                print("")
-                # chamadas ja feitas retiradas do banco de dados da CESAR school
-                a = a + 1
-        elif opcao == "TURMAS":
-            print("")
-            while a == 0:
-                # Turmas do professor retiradas do banco de dados do CESAR school
-                a = a + 1
-        elif opcao == "MENSAGENS":
-            while a == 0:
-                print(mensagem_prof)
-                # Mensagens recebidas não tem como serem feitas no momento, pois não sabemos salvar o código
-
-                # O professor entra no banco de dados do cesar e escolhe a turma e o aluno que ele quer mandar mensagem
-                mensagem_alu = input("")
-                notificacao_prof += 1  # Mensagem vai ser será salva e mandada para o aluno e a notificação vai ficar em cima de mensagens
-                a = a + 1
-        elif opcao == "PERFIL":
-            while a == 0:
-                print(nome)
-                print(email)
-                print("\nHorários:")  # Os horários do dia vão ser pegos do banco de dados
-                a = a + 1
-
-    # Se for aluno:
-if profissao == "Estudante":
-    while b == 0:
-        print("\n\nOLÁ,", nome, "\n\n")
-        print("CHAMADA")  # colocar o código e confirmar presença
-        print("TURMA")  # ACESSO AO HORÁRIO DE AULA DO BANCO DE DADOS
-        print("MENSAGENS-", notificacao_prof)  # mensagens enviadas e recebidas
-        print("PERFIL")
-        opcao_1 = input("")
-        a = 0
-        if opcao_1 == "CHAMADA":
-            while a == 0:
-                codigo_0 = input("Escreva o código:")
-                if codigo_0 == codigo_aleatorio:
-                    print("Presença confirmada")
-                    #como não sabemos utilizar geolocalização, decidimos botar só o código no momento
-                    presentes += 1
-                else:
-                    print("Você não está na sala de aula")
-                a = a + 1
-        elif opcao_1 == "TURMA":
-            while a == 0:
-                print("")
-                # horário em TABELA do dia
-                a = a + 1
-        elif opcao_1 == "MENSAGENS":
-            while a == 0:
-                print(mensagem_alu)
-                # Mensagens recebidas não tem como serem feitas no momento, pois não sabemos salvar o código
-
-                # O aluno entra no banco de dados do cesar e escolhe a turma e o professor que ele quer mandar mensagem
-                mensagem_prof = input("")
-                notificacao_alu += 1
-                # Mensagem vai ser será salva e mandada para o professor e a notificação vai ficar em cima de mensagens
-                a = a + 1
-        elif opcao_1 == "PERFIL":
-            while a == 0:
-                # nome social,email,foto do perfil, e horário
-                print(nome)
-                print(email)
-                print("\nHorários:")  # Os horários do dia vão ser pegos do banco de dados
-                a = a + 1
+        codigo_aleatorio = my_random_string(6)
+        texto = opcao_01 + "\n" + codigo_aleatorio
+        cod = open("codigo.txt", "a", encoding="utf8")
+        cod.write(texto)
+        cod.close()
+        print("Seu código é:", codigo_aleatorio)
+        # Como não sabiamos como colocar geolocalização, decidimos fazer apenas o código por enquanto
+        horario_p_em_and.append(opcao_01)
+        horario_p.remove(opcao_01)
+        chamadas = chamadas + 1
+        a = a + 1
+    elif opcao_01 in horario_p_em_and:
+        for i in alunos_presentes:
+            print(i)
